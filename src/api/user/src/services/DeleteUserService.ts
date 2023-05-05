@@ -6,6 +6,6 @@ export class DeleteUserService {
     ) {}
 
     async execute(data: IUserDTO["id"]): Promise<void> {
-        const user = await this.userRepository.delete(data);
+        await this.userRepository.delete(data);
     }
 }

@@ -11,21 +11,24 @@ interface CreateUserRequest {
 export class CreateUserService {
     constructor(private userRepository: IUserRepository) {}
 
-    async execute({ name, email, password }: CreateUserRequest) {
-        const userAlreadyExists = await this.userRepository.findByEmail(email);
+    async execute(data: CreateUserRequest) {
+        const userAlreadyExists = await this.userRepository.findByEmail(data.email);
 
         if (userAlreadyExists) {
             throw new Error("User already exists");
         }
 
         const userCreated = await this.userRepository.create({
-            name,
-            email,
-            password
+            name: data.name,
+            email: data.email,
+            password: data.password
         });
 
         const kafkaProducer = new KafkaSendMessage();
-        await kafkaProducer.execute('USER_CREATED', userCreated);
+        await kafkaProducer.execute('USER_CREATED', {
+            id: userCreated.id,
+            email: userCreated.email,
+        });
 
         return userCreated;
     }

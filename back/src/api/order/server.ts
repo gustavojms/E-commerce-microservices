@@ -1,5 +1,6 @@
 import express from "express";
 import { orderRouter } from "./src/routes/routes";
+import "./src/provider/kafka/consumers";
 
 const app = express();
 const port = 8082;

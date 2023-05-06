@@ -52,4 +52,9 @@ export class PrismaUserRepository implements IUserRepository {
             }
         });
     }
+
+    async findAll(): Promise<ICreateUserDTO[]> {
+        const users = await prisma.user.findMany();
+        return users;
+    }
 }

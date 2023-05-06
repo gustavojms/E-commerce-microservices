@@ -15,6 +15,7 @@ export interface IUserRepository {
     create: (data: ICreateUserDTO) => Promise<ICreateUserDTO>
     findByEmail: (email: string) => Promise<ICreateUserDTO | null>;
     findById: (id: string) => Promise<ICreateUserDTO | null>;
-    update: (data: IUserDTO) => Promise<ICreateUserDTO>;
+    findAll: () => Promise<ICreateUserDTO[]>;
+    update: (data: IUserDTO) => Promise<IUserDTO>;
     delete: (id: string) => Promise<void>;
 }

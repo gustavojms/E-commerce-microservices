@@ -21,7 +21,6 @@ export class CreateProductService {
       name,
       description,
       price,
-      quantity
     });
 
     return product;

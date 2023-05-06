@@ -3,7 +3,7 @@ import {IProductRepository, IProductDTO, ICreateProductDTO} from "./IProductRepo
 
 export class PrismaProductRepository implements IProductRepository {
   async create(data: ICreateProductDTO): Promise<ICreateProductDTO> {
-    const product = await prisma.product.create({
+    const product = await prisma.products.create({
       data: {
         name: data.name,
         description: data.description,
@@ -14,7 +14,7 @@ export class PrismaProductRepository implements IProductRepository {
   }
 
   async findByName(name: string): Promise<ICreateProductDTO | null> {
-    const product = await prisma.product.findFirst({
+    const product = await prisma.products.findFirst({
       where: {
         name: name
       }
@@ -23,7 +23,7 @@ export class PrismaProductRepository implements IProductRepository {
   }
 
   async findById(id: string): Promise<ICreateProductDTO | null> {
-    const product = await prisma.product.findFirst({
+    const product = await prisma.products.findFirst({
       where: {
         id: id
       }
@@ -32,12 +32,12 @@ export class PrismaProductRepository implements IProductRepository {
   }
 
   async findAll(): Promise<ICreateProductDTO[]> {
-    const products = await prisma.product.findMany();
+    const products = await prisma.products.findMany();
     return products;
   }
 
   async update(data: IProductDTO): Promise<IProductDTO> {
-    const product = await prisma.product.update({
+    const product = await prisma.products.update({
       where: {
         id: data.id
       },
@@ -51,7 +51,7 @@ export class PrismaProductRepository implements IProductRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await prisma.product.delete({
+    await prisma.products.delete({
       where: {
         id
       }

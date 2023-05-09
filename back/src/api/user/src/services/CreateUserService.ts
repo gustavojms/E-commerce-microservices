@@ -1,3 +1,5 @@
+import { kafka } from "../provider/kafka";
+import { KafkaSendMessage } from "../provider/kafka/producer";
 import { IUserRepository } from "../repositories/IUserRepository";
 
 interface CreateUserRequest {
@@ -9,19 +11,25 @@ interface CreateUserRequest {
 export class CreateUserService {
     constructor(private userRepository: IUserRepository) {}
 
-    async execute({ name, email, password }: CreateUserRequest) {
-        const userAlreadyExists = await this.userRepository.findByEmail(email);
+    async execute(data: CreateUserRequest) {
+        const userAlreadyExists = await this.userRepository.findByEmail(data.email);
 
         if (userAlreadyExists) {
             throw new Error("User already exists");
         }
 
-        const user = await this.userRepository.create({
-            name,
-            email,
-            password
+        const userCreated = await this.userRepository.create({
+            name: data.name,
+            email: data.email,
+            password: data.password
         });
 
-        return user;
+        const kafkaProducer = new KafkaSendMessage();
+        await kafkaProducer.execute('USER_CREATED', {
+            id: userCreated.id,
+            email: userCreated.email,
+        });
+
+        return userCreated;
     }
 }

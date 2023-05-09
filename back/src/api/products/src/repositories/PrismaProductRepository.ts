@@ -2,7 +2,7 @@ import {prisma} from "../database/prismaClient";
 import {IProductRepository, IProductDTO, ICreateProductDTO} from "./IProductRepository";
 
 export class PrismaProductRepository implements IProductRepository {
-  async create(data: ICreateProductDTO): Promise<ICreateProductDTO> {
+  async create(data: ICreateProductDTO): Promise<IProductDTO> {
     const product = await prisma.products.create({
       data: {
         name: data.name,

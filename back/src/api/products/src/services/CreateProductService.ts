@@ -1,6 +1,8 @@
+import { KafkaSendMessage } from "../provider/kafka/producer";
 import { IProductRepository } from "../repositories/IProductRepository";
 
 interface CreateProductRequest {
+    id: string;
     name: string;
     description: string;
     price: number;
@@ -22,6 +24,12 @@ export class CreateProductService {
       description,
       price,
     });
+
+    const kafkaProducer = new KafkaSendMessage();
+        await kafkaProducer.execute('PRODUCT_CREATED', {
+            id: product.id,
+            name: product.name,
+        });
 
     return product;
   }

@@ -5,7 +5,7 @@ const app = express();
 const port = 8081;
 
 app.use(express.json());
-app.use("/orders", productRouter);
+app.use("/product", productRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

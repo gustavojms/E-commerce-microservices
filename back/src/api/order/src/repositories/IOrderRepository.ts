@@ -8,6 +8,8 @@ export interface IOrderDTO {
 export interface ICreateOrderDTO {
     quantity: number;
     totalPrice: number;
+    userId: string;
+    productId: string;
 }
 
 export interface IOrderRepository {

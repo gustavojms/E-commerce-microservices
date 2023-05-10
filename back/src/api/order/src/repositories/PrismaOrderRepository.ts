@@ -3,31 +3,33 @@ import {IOrderRepository, IOrderDTO, ICreateOrderDTO} from "./IOrderRepository";
 
 export class PrismaOrderRepository implements IOrderRepository {  
     async create(data: ICreateOrderDTO): Promise<ICreateOrderDTO> {
-        const order = await prisma.order.create({
+        const orders = await prisma.orders.create({
             data: {
                 quantity: data.quantity,
-                totalPrice: data.totalPrice
+                totalPrice: data.totalPrice,
+                userId: data.userId,
+                productId: data.productId
             }
         });
-        return order;
+        return orders;
     }
     
     async findById(id: string): Promise<ICreateOrderDTO | null> {
-        const order = await prisma.order.findFirst({
+        const orders = await prisma.orders.findFirst({
             where: {
                 id: id
             }
         });
-        return order;
+        return orders;
     }
 
     async findAll(): Promise<ICreateOrderDTO[]> {
-        const orders = await prisma.order.findMany();
+        const orders = await prisma.orders.findMany();
         return orders;
     }
 
     async update(data: IOrderDTO): Promise<IOrderDTO> {        
-        const order = await prisma.order.update({
+        const orders = await prisma.orders.update({
             where: {
                 id: data.id
             },
@@ -36,11 +38,11 @@ export class PrismaOrderRepository implements IOrderRepository {
                 totalPrice: data.totalPrice
             }
         });
-        return order;
+        return orders;
     }
 
     async delete(id: string): Promise<void> {
-        await prisma.order.delete({
+        await prisma.orders.delete({
             where: {
                 id
             }

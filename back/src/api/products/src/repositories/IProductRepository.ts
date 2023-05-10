@@ -12,7 +12,7 @@ export interface ICreateProductDTO {
 }
 
 export interface IProductRepository {
-  create: (data: ICreateProductDTO) => Promise<ICreateProductDTO>
+  create: (data: ICreateProductDTO) => Promise<IProductDTO>
   findByName: (name: string) => Promise<ICreateProductDTO | null>;
   findById: (id: string) => Promise<ICreateProductDTO | null>;
   findAll: () => Promise<ICreateProductDTO[]>;
